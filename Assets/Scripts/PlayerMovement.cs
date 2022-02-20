@@ -5,10 +5,24 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField, Range(0,10)] private float speed = 2.0f;
     private Rigidbody playerRigidbody;
+    private Animator animator;
 
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        if(playerRigidbody.velocity.Equals(Vector3.zero))
+        {
+            animator.SetBool("IsMoving", false);
+        }
+        else
+        {
+            animator.SetBool("IsMoving", true);
+        }
     }
 
     public void MovePlayer(Vector3 movement)
