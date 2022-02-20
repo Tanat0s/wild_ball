@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField]private Transform playerTransform;
+    [SerializeField]private Transform cameraTransform;
     private Vector3  offset;
 
     [SerializeField, Range(0,10)]private float deltaOffset;
