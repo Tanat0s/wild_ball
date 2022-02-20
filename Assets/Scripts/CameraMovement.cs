@@ -5,6 +5,8 @@ public class CameraMovement : MonoBehaviour
     [SerializeField]private Transform playerTransform;
     private Vector3  offset;
 
+    [SerializeField, Range(0,10)]private float deltaOffset;
+
     void Start()
     {
         offset = transform.position - playerTransform.position;
@@ -12,7 +14,8 @@ public class CameraMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        transform.position = playerTransform.position + offset;
+        if(offset.magnitude > deltaOffset)
+            transform.position = playerTransform.position + offset;
     }
 
 }

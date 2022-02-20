@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if(playerRigidbody.velocity.Equals(Vector3.zero))
+        if(playerRigidbody.velocity.x == 0 && playerRigidbody.velocity.z == 0)
         {
             animator.SetBool("IsMoving", false);
         }
