@@ -31,9 +31,4 @@ public class PlayerInput : MonoBehaviour
     {
         playerMovement.MovePlayer(movement);
     }
-
-    // private void OnApplicationFocus(bool focus)
-    // {
-    //     Cursor.lockState = focus ? CursorLockMode.Locked : CursorLockMode.None;
-    // }
 }

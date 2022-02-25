@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.layer == 8)
+        if(other.gameObject.layer == (int)LayerEnum.Ground)
         {
             IsGrounded = true;
         }
@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
 
      private void OnCollisionStay(Collision other)
     {
-        if(other.gameObject.layer == 8)
+        if(other.gameObject.layer == (int)LayerEnum.Ground)
         {
             IsGrounded = true;
         }
@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionExit(Collision other)
     {
-        if(other.gameObject.layer == 8)
+        if(other.gameObject.layer == (int)LayerEnum.Ground)
         {
             IsGrounded = false;
         }

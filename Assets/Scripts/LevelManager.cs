@@ -1,18 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
     [SerializeField]private GameObject pauseButton;
     [SerializeField]private GameObject pausePanel;
 
-    UnityEvent MyEvent = new UnityEvent();
+    UnityEvent pauseEvent = new UnityEvent();
 
     private void Start()
     {
-        MyEvent.AddListener(OnPause);
+        pauseEvent.AddListener(OnPause);
     }
 
     private void OnPause()
@@ -23,27 +22,37 @@ public class LevelManager : MonoBehaviour
         if(pausePanel != null)
             pausePanel.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0;
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1;
     }
 
     private void Update()
     {
         if(pausePanel != null && !pausePanel.activeSelf &&  Cursor.lockState == CursorLockMode.None)
             Cursor.lockState =  CursorLockMode.Locked;
+
         if(pausePanel != null && pausePanel.activeSelf && Cursor.lockState == CursorLockMode.Locked)
             Cursor.lockState =  CursorLockMode.None;
 
-        if(Input.GetKeyDown(KeyCode.Escape) && MyEvent != null)
+        if(Input.GetKeyDown(KeyCode.Escape) && pauseEvent != null)
         {
-            MyEvent.Invoke();
+            pauseEvent.Invoke();
         }
     }
+
     public void LoadLevel(int buildIndex)
     {
         SceneManager.LoadScene(buildIndex);        
     }
 
+    //When in football gate go to the next level
+    //TODO Don't forget to check last level
     private void OnTriggerEnter(Collider other)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
