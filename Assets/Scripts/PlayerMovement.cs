@@ -7,8 +7,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, Range(0,10)] private float jumpSpeed = 2.0f;
 
     public bool IsGrounded { get; private set; }
+    public bool IsOnWall { get; private set; }
     private Rigidbody playerRigidbody;
     private Animator animator;
+
+    private Vector3 contactPointNormal;
 
     private void Awake()
     {
@@ -35,30 +38,61 @@ public class PlayerMovement : MonoBehaviour
 
     public void JumpPlayer(Vector3 movement)
     {
-        playerRigidbody.AddForce(movement * jumpSpeed);
+        if(IsGrounded)
+            playerRigidbody.AddForce(movement * jumpSpeed);
+        else if(IsOnWall)
+            playerRigidbody.AddForce((movement+contactPointNormal) * jumpSpeed);
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit colliderHit)
+    {
+        Debug.DrawRay(colliderHit.point, colliderHit.normal, Color.red, 1.25f);
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.layer == (int)LayerEnum.Ground)
+        switch(other.gameObject.layer)
         {
-            IsGrounded = true;
+            case (int)LayerEnum.Ground:
+                IsGrounded = true;
+            break;
+            case (int)LayerEnum.Wall:
+                if(!IsGrounded)
+                {
+                    contactPointNormal = other.GetContact(0).normal * jumpSpeed;
+                    IsOnWall = true;
+                }
+            break;
         }
     }
 
      private void OnCollisionStay(Collision other)
     {
-        if(other.gameObject.layer == (int)LayerEnum.Ground)
+        switch(other.gameObject.layer)
         {
-            IsGrounded = true;
+            case (int)LayerEnum.Ground:
+                IsGrounded = true;
+            break;
+            case (int)LayerEnum.Wall:
+                if(!IsGrounded)
+                {
+                    IsOnWall = true;
+                    contactPointNormal = other.GetContact(0).normal * jumpSpeed;
+                }
+            break;
         }
     }
 
     private void OnCollisionExit(Collision other)
     {
-        if(other.gameObject.layer == (int)LayerEnum.Ground)
+        switch(other.gameObject.layer)
         {
-            IsGrounded = false;
+            case (int)LayerEnum.Ground:
+                IsGrounded = false;
+            break;
+            case (int)LayerEnum.Wall:
+                IsOnWall = false;
+            break;
         }
     }
 

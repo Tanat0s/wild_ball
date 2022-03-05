@@ -7,5 +7,6 @@ public enum LayerEnum
     Water = 4,
     UI = 5,
     Ground = 8,
-    Enemy = 9  
+    Enemy = 9, 
+    Wall = 10
 }

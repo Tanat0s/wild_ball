@@ -17,9 +17,16 @@ public class PlayerInput : MonoBehaviour
         var horizontal = Input.GetAxis(GlobalStringValues.Horizontal_Axis);
         var vertical = Input.GetAxis(GlobalStringValues.Vertical_Axis);
 
-        if(Input.GetAxis(GlobalStringValues.Jump_Button) == 1f && playerMovement.IsGrounded)
+        if(Input.GetAxis(GlobalStringValues.Jump_Button) == 1f)
         {
-            playerMovement.JumpPlayer(jumpValue);
+            if(playerMovement.IsGrounded)
+            {
+                playerMovement.JumpPlayer(jumpValue);
+            }
+            else if(playerMovement)
+            {
+                playerMovement.JumpPlayer(jumpValue);
+            }
         }
        
         movement = new Vector3(horizontal, 0, vertical);
